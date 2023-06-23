@@ -1,0 +1,38 @@
+# rngesturehandlermodule BUILD.gn
+
+import("//react-native/common.gni")
+
+config("Librngesturehandlermodule_config") {
+  cflags_cc = [ "-std=c++17"]
+  cflags_cc += [
+    "-Wno-extra-semi",
+    "-Wno-sign-compare",
+    "-Wno-header-hygiene",
+  ]
+
+  include_dirs = [ ".",
+                  "//react-native/ReactCommon/",
+                ]
+}
+
+rns_cxx_tp_component("rngesturehandlermodule") {
+
+  # RS Native module and its dependencies
+  sources = [
+    "RNGestureHandlerModule.h",
+    "RNGestureHandlerModule.cpp",
+  ]
+
+  public_configs = [ ":Librngesturehandlermodule_config" ]
+  public_configs += [ "//build/secondary/folly:folly_config" ]
+  deps = [
+    "//folly",
+    "//skia",
+    "//react-native/ReactCommon/runtimeexecutor",
+    "//react-native/ReactCommon/jsi:jsi",
+    "//react-native/ReactCommon/callinvoker",
+  ]
+
+  with_exceptions = true
+  with_rtti = true
+}
